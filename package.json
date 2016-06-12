@@ -1,0 +1,33 @@
+{
+  "name": "generator-sinatra-datatcher",
+  "version": "0.0.1",
+  "description": "Generate a data catcher microsite",
+  "license": "MIT",
+  "main": "app/index.js",
+  "repository": "https://github.com/internet-blacksmith/sinatra-datatcher-generator",
+  "author": {
+    "name": "Fabbri Paolo",
+    "email": "jabawack81@gmail.com",
+    "url": "http://internetblacksmith.co.uk"
+  },
+  "scripts": {
+    "test": "mocha"
+  },
+  "files": [
+    "generators"
+  ],
+  "keywords": [
+    "sinatra",
+    "datacatcher",
+    "yeoman-generator"
+  ],
+  "dependencies": {
+    "chalk": "^1.0.0",
+    "shelljs": "^0.5.3",
+    "yeoman-generator": "^0.20.3",
+    "yosay": "^1.0.2"
+  },
+  "devDependencies": {
+    "mocha": "*"
+  }
+}

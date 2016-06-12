@@ -1,0 +1,14 @@
+%h3 All Entry
+%a{ href: "/admin.csv" } Download as CSV
+
+.table-responsive
+  %table.table.table-striped.table-bordered.table-hover
+    %thead
+      %tr
+<?= tableHeader ?>
+    %tbody
+      - @models.each do |model|
+        %tr
+<?= tableRow ?>
+
+%a{ href: "/" } Back to Home

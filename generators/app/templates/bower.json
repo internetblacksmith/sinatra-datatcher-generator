@@ -1,0 +1,11 @@
+{
+  "name": "package",
+  "version": "0.0.0",
+  "dependencies": {
+    <% if( datetime ){%> "eonasdan-bootstrap-datetimepicker": "latest", <% } %>
+    <% if( date ){%> "bootstrap-datepicker": "latest", <% } %>
+    <% if( time ){%> "clockpicker": "latest", <% } %>
+    "bootstrap": "^3.3.6"
+  }
+}
+

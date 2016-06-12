@@ -1,0 +1,19 @@
+<h3>All Entry</h3>
+<a href="/admin.csv">Download as CSV</a>
+<div class="table-responsive">
+  <table class="table table-striped table-bordered table-hover">
+    <thead>
+      <tr>
+<?- tableHeader ?>
+      </tr>
+    </thead>
+    <tbody>
+      <% @models.each do |model| %>
+        <tr>
+<?- tableRow ?>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+<a href="/">Back to Home</a>
