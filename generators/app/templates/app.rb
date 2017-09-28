@@ -18,8 +18,10 @@ helpers do
   end
 
   def authorized?
+    username = ENV["ADMIN_USERNAME"] || "admin"
+    password = ENV["ADMIN_PASWORD"] || "password"
     @auth ||=  Rack::Auth::Basic::Request.new(request.env)
-    @auth.provided? and @auth.basic? and @auth.credentials and @auth.credentials == ['admin', 'admin']
+    @auth.provided? and @auth.basic? and @auth.credentials and @auth.credentials == [username, password]
   end
 
   def model_params
