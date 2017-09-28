@@ -1,10 +1,9 @@
 require "sinatra"
 require "sinatra/activerecord"
-require 'sinatra/respond_to'
+require "sinatra/respond_to"
 require "./config/environments" #database configuration
 require "./models/model"        #Model class
 require "csv"
-
 <? if( templateEngine == "haml" ){ ?>require "haml"<? } ?>
 
 set :public_dir, Proc.new { File.join(root, "public") }
@@ -14,7 +13,7 @@ Sinatra::Application.register Sinatra::RespondTo
 helpers do
   def protected!
     return if authorized?
-    headers['WWW-Authenticate'] = 'Basic realm="Restricted Area"'
+    headers["WWW-Authenticate"] = 'Basic realm="Restricted Area"'
     halt 401, "Not authorized\n"
   end
 
@@ -24,7 +23,7 @@ helpers do
   end
 
   def model_params
-    params.keep_if {| key, value | ["name", "email"].include? key } 
+    params.keep_if {| key, value | ["name", "email"].include? key }
   end
 end
 
@@ -53,7 +52,7 @@ post "/submit" do
     else
       redirect :error
     end
-<? if( true == recaptcha ){ ?> 
+<? if( true == recaptcha ){ ?>
   else
    redirect "/"
   end<? } ?>
@@ -72,7 +71,7 @@ get "/admin" do
   respond_to do |format|
     format.html do
       @models = Model.all
-      <?= templateEngine ?> :admin 
+      <?= templateEngine ?> :admin
     end
     format.csv { Model.to_csv }
   end
