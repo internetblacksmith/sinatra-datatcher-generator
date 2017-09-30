@@ -135,11 +135,11 @@ module.exports = yeoman.generators.Base.extend({
       var prompts = [{
         type: "input",
         name: "fieldName",
-        message: "Field Name?"
+        message: "Field Name (used for model properties, so no spaces or special character)?"
       }, {
         type: "input",
         name: "fieldLabel",
-        message: "Field Label?"
+        message: "Field Label (used in the HTML form, so is what the user will see)?"
       }, {
         type: "list",
         name: "fieldType",
