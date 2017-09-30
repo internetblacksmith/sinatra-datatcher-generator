@@ -161,6 +161,8 @@ module.exports = yeoman.generators.Base.extend({
 
       self.prompt(prompts, function(props) {
 
+        self.strongParams.push('"' + props.fieldName + '"');
+
         self.up = self.up.concat("      t." + props.fieldType + " :" + props.fieldName + "\n");
 
         self.form = self.form.concat(formField(props.fieldLabel, props.fieldName, props.fieldType, templateEngine));
@@ -228,6 +230,7 @@ module.exports = yeoman.generators.Base.extend({
       this.time = false;
       this.date = false;
       this.datetime = false;
+      this.strongParams = [];
 
       field(this, props.templateEngine);
     }.bind(this));
@@ -281,7 +284,8 @@ module.exports = yeoman.generators.Base.extend({
         this.templatePath("app.rb"),
         this.destinationPath("app.rb"), {
           recaptcha: this.recaptcha,
-          templateEngine: this.templateEngine
+          templateEngine: this.templateEngine,
+          strongParams: this.strongParams
 
         }, {
           delimiter: "?"

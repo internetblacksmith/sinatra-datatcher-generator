@@ -25,7 +25,7 @@ helpers do
   end
 
   def model_params
-    params.keep_if {| key, value | ["name", "email"].include? key }
+    params.keep_if {| key, value | [<?- strongParams.join(", ") ?>].include? key }
   end
 end
 
