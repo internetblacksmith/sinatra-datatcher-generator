@@ -118,8 +118,11 @@ function formField(label, name, type, templateEngine) {
   }
 
   return ret;
-
 };
+
+function dehumanize(string) {
+  return string.replace(/[^a-zA-Z]/g, "");
+}
 
 module.exports = yeoman.generators.Base.extend({
   prompting: function() {
@@ -213,10 +216,10 @@ module.exports = yeoman.generators.Base.extend({
         "erb"
       ]
     }, {
-        type: "confirm",
-        name: "recaptcha",
-        message: "Add Recaptcha?"
-      }]
+      type: "confirm",
+      name: "recaptcha",
+      message: "Add Recaptcha?"
+    }]
 
     this.prompt(prompts, function(props) {
 
@@ -231,6 +234,7 @@ module.exports = yeoman.generators.Base.extend({
       this.date = false;
       this.datetime = false;
       this.strongParams = [];
+      this.databaseName = dehumanize(props.title);
 
       field(this, props.templateEngine);
     }.bind(this));
@@ -264,13 +268,21 @@ module.exports = yeoman.generators.Base.extend({
         this.templatePath("Vagrantfile"),
         this.destinationPath("Vagrantfile")
       );
-      this.fs.copy(
+      this.fs.copyTpl(
         this.templatePath("config/database.yml"),
-        this.destinationPath("config/database.yml")
+        this.destinationPath("config/database.yml"), {
+          databaseName: this.databaseName
+        }, {
+          delimiter: "?"
+        }
       );
-      this.fs.copy(
+      this.fs.copyTpl(
         this.templatePath("config/environments.rb"),
-        this.destinationPath("config/environments.rb")
+        this.destinationPath("config/environments.rb"), {
+          databaseName: this.databaseName
+        }, {
+          delimiter: "?"
+        }
       );
       this.fs.copy(
         this.templatePath("views/" + this.templateEngine + "/thakyou.html." + this.templateEngine),
