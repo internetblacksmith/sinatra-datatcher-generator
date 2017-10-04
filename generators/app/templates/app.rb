@@ -26,10 +26,15 @@ helpers do
 
   def model_params
     params.keep_if {| key, value | [<?- strongParams.join(", ") ?>].include? key }
-  end
+  end<? if( true == recaptcha ){ ?>
+
+  def recaptcha_key
+   recaptcha_key ||= "<?- recaptchaKey ?>"
+  end<? } ?>
 end
 
 get "/" do
+  @recaptcha_key = ENV["RECAPTCHA_KEY"] || recaptcha_key
   <?= templateEngine ?> :index
 end
 
@@ -38,7 +43,7 @@ post "/submit" do
   <? if( true == recaptcha ){ ?>res = Net::HTTP.post_form(
     URI.parse('https://www.google.com/recaptcha/api/siteverify'),
     {
-      'secret'     => '6Lc3iyATAAAAAIniHC_zfq8d_abX_QoT2Yf0eUaI',
+      'secret'     => recaptcha_key,
       'response'   => params["g-recaptcha-response"],
       'remoteip'   => request.ip
     }

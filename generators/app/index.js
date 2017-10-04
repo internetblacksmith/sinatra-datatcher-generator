@@ -116,7 +116,6 @@ function formField(label, name, type, templateEngine) {
     ret += field;
     ret += "    <!-- " + name + " end  -->\n";
   }
-
   return ret;
 };
 
@@ -199,7 +198,21 @@ module.exports = yeoman.generators.Base.extend({
         } else {
           done();
         };
+      });
+    }
 
+    var recaptchaKey = function(self, templateEngine) {
+
+      var prompts = [{
+        type: "input",
+        name: "recaptchaKey",
+        message: "Your Recaptcha key (you can get one at: https://developers.google.com/recaptcha/, press enter to edit later)?",
+        default: "RECAPTCHA_KEY"
+      }];
+
+      self.prompt(prompts, function(props) {
+        self.recaptchaKey = props.recaptchaKey;
+        field(self, templateEngine);
       });
     }
 
@@ -236,7 +249,11 @@ module.exports = yeoman.generators.Base.extend({
       this.strongParams = [];
       this.databaseName = dehumanize(props.title);
 
-      field(this, props.templateEngine);
+      if (true === this.recaptcha) {
+        recaptchaKey(this, props.templateEngine);
+      } else {
+        field(this, props.templateEngine);
+      }
     }.bind(this));
 
   },
@@ -297,8 +314,8 @@ module.exports = yeoman.generators.Base.extend({
         this.destinationPath("app.rb"), {
           recaptcha: this.recaptcha,
           templateEngine: this.templateEngine,
-          strongParams: this.strongParams
-
+          strongParams: this.strongParams,
+          recaptchaKey: this.recaptchaKey
         }, {
           delimiter: "?"
         }

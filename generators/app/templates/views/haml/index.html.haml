@@ -3,5 +3,5 @@
 .row
   %form{ action: "/submit", method: "POST" }
 <?- form ?><? if( true == recaptcha ){ ?>
-    .g-recaptcha{ data: { sitekey: "6Lc3iyATAAAAABH0o8SSnxkJ4M7bjph22t2mS84O", callback: "imNotARobot" } }<? } ?>
+    .g-recaptcha{ data: { sitekey: @recaptcha_key, callback: "imNotARobot" } }<? } ?>
     %button#submit.btn.btn-primary{ type: "submit", class: "btn btn-default", <? if( true == recaptcha ){ ?>disabled: true<? } ?> } Submit
