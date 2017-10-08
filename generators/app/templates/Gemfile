@@ -6,4 +6,8 @@ gem "sinatra-activerecord"
 gem "pg"
 <? if( templateEngine == "haml" ){ ?>gem "haml"<? } ?>
 gem "rake"
-gem 'sinatra-respond_to'
+gem "sinatra-respond_to"
+
+group :test, :development do
+  gem "shotgun"
+end
