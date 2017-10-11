@@ -4,7 +4,7 @@
 <div class="row">
   <form action="/submit" method="POST">
 <?- form ?>
-<? if( true == recaptcha ){ ?> <div class="g-recaptcha" data-sitekey="<%= @recaptcha_key %>" callback="imNotARobot"></div> <? } ?>
+<? if( true == recaptcha ){ ?> <div class="g-recaptcha" data-sitekey="<%= @recaptcha_site_key %>" callback="imNotARobot"></div> <? } ?>
     <button class="btn btn-default btn btn-primary" type="submit">Submit</button>
   </form>
 </div>

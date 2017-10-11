@@ -9,5 +9,6 @@ gem "rake"
 gem "sinatra-respond_to"
 
 group :test, :development do
+  gem "dotenv"
   gem "shotgun"
 end

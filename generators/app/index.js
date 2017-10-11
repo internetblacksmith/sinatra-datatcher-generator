@@ -205,13 +205,20 @@ module.exports = yeoman.generators.Base.extend({
 
       var prompts = [{
         type: "input",
-        name: "recaptchaKey",
-        message: "Your Recaptcha key (you can get one at: https://developers.google.com/recaptcha/, press enter to edit later)?",
-        default: "RECAPTCHA_KEY"
+        name: "recaptchaSiteKey",
+        message: "Your Recaptcha Site key (you can get one at: https://developers.google.com/recaptcha/, press enter to edit later)?",
+        default: "RECAPTCHA_SITE_KEY"
+      }, {
+        type: "input",
+        name: "recaptchaSecretKey",
+        message: "Your Recaptcha Secret key?",
+        default: "RECAPTCHA_SECRET_KEY"
       }];
 
       self.prompt(prompts, function(props) {
-        self.recaptchaKey = props.recaptchaKey;
+        self.recaptchaSiteKey = props.recaptchaSiteKey;
+        self.recaptchaSecretKey = props.recaptchaSecretKey;
+        self.recaptcha = true;
         field(self, templateEngine);
       });
     }
@@ -273,6 +280,16 @@ module.exports = yeoman.generators.Base.extend({
         this.templatePath("config.ru"),
         this.destinationPath("config.ru")
       );
+      this.fs.copyTpl(
+        this.templatePath(".env"),
+        this.destinationPath(".env"), {
+          recaptchaSiteKey: this.recaptchaSiteKey,
+          recaptchaSecretKey: this.recaptchaSecretKey,
+          databaseName: this.databaseName
+        }, {
+          delimiter: "?"
+        }
+      );
       this.fs.copy(
         this.templatePath("package.json"),
         this.destinationPath("package.json")
@@ -314,8 +331,7 @@ module.exports = yeoman.generators.Base.extend({
         this.destinationPath("app.rb"), {
           recaptcha: this.recaptcha,
           templateEngine: this.templateEngine,
-          strongParams: this.strongParams,
-          recaptchaKey: this.recaptchaKey
+          strongParams: this.strongParams
         }, {
           delimiter: "?"
         }

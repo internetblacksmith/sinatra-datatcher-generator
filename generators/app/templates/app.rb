@@ -1,10 +1,15 @@
 require "sinatra"
 require "sinatra/activerecord"
 require "sinatra/respond_to"
+require "csv"
+require "dotenv"<? if( templateEngine == "haml" ){ ?>
+require "haml"<? } ?><? if( true == recaptcha ){ ?>
+require "net/http"<? } ?>
+
+Dotenv.load
+
 require "./config/environments" #database configuration
 require "./models/model"        #Model class
-require "csv"
-<? if( templateEngine == "haml" ){ ?>require "haml"<? } ?>
 
 set :public_dir, Proc.new { File.join(root, "public") }
 
@@ -18,23 +23,19 @@ helpers do
   end
 
   def authorized?
-    username = ENV["ADMIN_USERNAME"] || "admin"
-    password = ENV["ADMIN_PASWORD"] || "password"
+    username = ENV["ADMIN_USERNAME"]
+    password = ENV["ADMIN_PASWORD"]
     @auth ||=  Rack::Auth::Basic::Request.new(request.env)
     @auth.provided? and @auth.basic? and @auth.credentials and @auth.credentials == [username, password]
   end
 
   def model_params
     params.keep_if {| key, value | [<?- strongParams.join(", ") ?>].include? key }
-  end<? if( true == recaptcha ){ ?>
-
-  def recaptcha_key
-   recaptcha_key ||= "<?- recaptchaKey ?>"
-  end<? } ?>
+  end
 end
 
-get "/" do
-  @recaptcha_key = ENV["RECAPTCHA_KEY"] || recaptcha_key
+get "/" do<? if( true == recaptcha ){ ?>
+  @recaptcha_site_key = ENV["RECAPTCHA_SITE_KEY"]<? } ?>
   <?= templateEngine ?> :index
 end
 
@@ -43,7 +44,7 @@ post "/submit" do
   <? if( true == recaptcha ){ ?>res = Net::HTTP.post_form(
     URI.parse('https://www.google.com/recaptcha/api/siteverify'),
     {
-      'secret'     => recaptcha_key,
+      'secret'     => ENV["RECAPTCHA_SECRET_KEY"],
       'response'   => params["g-recaptcha-response"],
       'remoteip'   => request.ip
     }
