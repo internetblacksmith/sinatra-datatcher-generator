@@ -20,7 +20,7 @@
     "chalk": "^1.0.0",
     "shelljs": "^0.5.3",
     "yeoman-generator": "^0.20.3",
-    "yosay": "^1.0.2"
+    "yosay": "^2.0.2"
   },
   "devDependencies": {
     "mocha": "*"
