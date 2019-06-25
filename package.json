@@ -17,7 +17,7 @@
   "files": ["generators"],
   "keywords": ["sinatra", "datacatcher", "yeoman-generator"],
   "dependencies": {
-    "chalk": "^1.0.0",
+    "chalk": "^2.4.2",
     "shelljs": "^0.5.3",
     "yeoman-generator": "^0.20.3",
     "yosay": "^2.0.2"
